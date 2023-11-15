@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="{% static 'css/pokemon_detail.css' %}">
+    <title>Pokemon API</title>
+
+</head>
+
+<body>
+
+    <form method="get" action="{% url 'pokemon_list' %}" style="margin: 10px 0px 10px 0px">
+        <input type="text" name="q" value="{% if not query is None %}{{ query }}{% endif %}" placeholder="Buscar...">
+        <button type="submit">Buscar</button>
+    </form>
+
+    <table border="1">
+        <thead>
+            <tr style="text-align: center;">
+                <th>Nombre</th>
+                <th>Número de habilidades</th>
+                <th>Imagen</th>
+                <th>URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pokemon in pokemons %}
+            <tr style="text-align: center;">
+                <td>{{ pokemon.name }}</td>
+                <td>{{ pokemon.num_abilities }}</td>
+                <td><img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }} Image" style="max-width: 100px;"></td>
+                <td><a href="{% url 'pokemon_detail' pokemon_id=pokemon.id %}">Ver detalles</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <div class="pagination" style="margin: 10px 0px 10px 0px">
+        <span class="step-links">
+            {% if pokemons.has_previous %}
+            <a href="?page=1">&laquo; Primero</a>
+            <a href="?page={{ pokemons.previous_page_number }}">Atrás</a>
+            {% endif %}
+
+            <span class="current">
+                Página {{ pokemons.number }} de {{ pokemons.paginator.num_pages }}.
+            </span>
+
+            {% if pokemons.has_next %}
+            <a href="?page={{ pokemons.next_page_number }}">Siguiente</a>
+            <a href="?page={{ pokemons.paginator.num_pages }}">Último &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+
+    <a href="?page=1&a=1">Actualizar Datos</a>
+
+
+</body>
+
+
+</html>
+

@@ -1,0 +1,166 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" href="{% static 'css/pokemon_detail.css' %}">
+    <title>Pokemon Detail</title>
+
+</head>
+
+<body>
+    <a href="{% url 'pokemon_list' %}" style="margin: 10px 0px 10px 0px">Volver</a>
+    <table border="1">
+        <thead>
+            <tr style="text-align: center;">
+                <th>Detalle</th>
+                <th>Descripción</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Nombre</td>
+                <td>{{ pokemon.name }}</td>
+            </tr>
+            <tr>
+                <td>Número de Habilidades</td>
+                <td>{{ pokemon.num_abilities }}</td>
+            </tr>
+            <tr>
+                <td>Sprite Frontal</td>
+                <td><img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }} Image" style="max-width: 100px;"></td>
+            </tr>
+            <tr>
+                <td>Experiencia Base</td>
+                <td>{{ pokemon.base_experience }}</td>
+            </tr>
+            <tr>
+                <td>Altura</td>
+                <td>{{ pokemon.height }} dm</td>
+            </tr>
+            <tr>
+                <td>Predeterminado</td>
+                <td>{{ pokemon.is_default|yesno:"Si,No" }}</td>
+            </tr>
+            <tr>
+                <td>Orden</td>
+                <td>{{ pokemon.order }}</td>
+            </tr>
+            <tr>
+                <td>Peso</td>
+                <td>{{ pokemon.weight }} hg</td>
+            </tr>
+        </tbody>
+    </table>
+    <span class="titulo">Habilidades</span>
+    <table border="1">
+        <thead>
+            <tr style="text-align: center;">
+                <th>Nombre</th>
+                <th>Originado en la serie principal</th>
+                <th>Habilidad Oculta</th>
+                <th>Ranura</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pokemon_ability in pokemon.abilities.all %}
+            <tr style="text-align: center;">
+                <td>{{ pokemon_ability.ability.name }}</td>
+                <td>{{ pokemon_ability.ability.is_main_series|yesno:"Si,No" }}</td>
+                <td>{{ pokemon_ability.is_hidden|yesno:"Si,No" }}</td>
+                <td>{{ pokemon_ability.slot }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <span class="titulo">Formas</span>
+    <table border="1">
+        <thead>
+            <tr style="text-align: center;">
+                <!--<th>Nombre</th>-->
+                <th>Nombre de la forma</th>
+                <th>Orden</th>
+                <th>Orden de la forma</th>
+                <th>Forma por defecto</th>
+                <th>Solo en batalla</th>
+                <th>Mega Evolución</th>
+                <th>Vista Frontal</th>
+                <th>Vista Frontal brillante</th>
+                <th>Vista Trasera</th>
+                <th>Vista Trasera brillante</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for pokemon_form in pokemon.forms.all %}
+            <tr style="text-align: center;">
+                <!--<td>{{ pokemon_form.name }}</td>-->
+                <td>{{ pokemon_form.form_name }}</td>
+                <td>{{ pokemon_form.order }}</td>
+                <td>{{ pokemon_form.form_order }}</td>
+                <td>{{ pokemon_form.is_default|yesno:"Si,No" }}</td>
+                <td>{{ pokemon_form.is_battle_only|yesno:"Si,No" }}</td>
+                <td>{{ pokemon_form.is_mega|yesno:"Si,No" }}</td>
+                <td><img src="{{ pokemon_form.sprites.front_default }}" alt="{{ pokemon_form.name }} Image" style="max-width: 100px;"></td>
+                <td><img src="{{ pokemon_form.sprites.front_shiny }}" alt="{{ pokemon_form.name }} Image" style="max-width: 100px;"></td>
+                <td><img src="{{ pokemon_form.sprites.back_default }}" alt="{{ pokemon_form.name }} Image" style="max-width: 100px;"></td>
+                <td><img src="{{ pokemon_form.sprites.back_shiny }}" alt="{{ pokemon_form.name }} Image" style="max-width: 100px;"></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <span class="titulo">Sprites</span>
+    <table border="1">
+        <thead>
+            <tr style="text-align: center;">
+                <th>Vista</th>
+                <th>Sprite</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Vista Frontal</td>
+                <td><img src="{{ pokemon.sprites.front_default }}" alt="{{ pokemon.name }} Image" style="max-width: 100px;"></td>
+            </tr>
+            <tr>
+                <td>Vista Frontal Brillante</td>
+                <td><img src="{{ pokemon.sprites.front_shiny }}" alt="{{ pokemon.name }} Image" style="max-width: 100px;"></td>
+            </tr>
+            <tr>
+                <td>Vista Frontal Femenina</td>
+                <td><img src="{{ pokemon.sprites.front_female }}" alt="{{ pokemon.name }} Image" style="max-width: 100px;"></td>
+            </tr>
+            <tr>
+                <td>Vista Frontal Brillante Femenina</td>
+                <td><img src="{{ pokemon.sprites.front_shiny_female }}" alt="{{ pokemon.name }} Image" style="max-width: 100px;"></td>
+            </tr>
+            <tr>
+                <td>Vista Trasera</td>
+                <td><img src="{{ pokemon.sprites.back_default }}" alt="{{ pokemon.name }} Image" style="max-width: 100px;"></td>
+            </tr>
+            <tr>
+                <td>Vista Trasera Brillante</td>
+                <td><img src="{{ pokemon.sprites.back_shiny }}" alt="{{ pokemon.name }} Image" style="max-width: 100px;"></td>
+            </tr>
+            <tr>
+                <td>Vista Trasera Femenina</td>
+                <td><img src="{{ pokemon.sprites.back_female }}" alt="{{ pokemon.name }} Image" style="max-width: 100px;"></td>
+            </tr>
+            <tr>
+                <td>Vista Trasera Brillante Femenina</td>
+                <td><img src="{{ pokemon.sprites.back_shiny_female }}" alt="{{ pokemon.name }} Image" style="max-width: 100px;"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{% url 'pokemon_list' %}" style="margin: 10px 0px 10px 0px">Volver</a>
+
+    <span class="titulo" style="color: red">La Pokebase tiene mucha información que por tiempo no se coloca aquí</span>
+
+</body>
+
+
+</html>
+
