@@ -33,6 +33,9 @@ call "%VIRTUAL_ENV_PATH%\Scripts\activate"
 :: Instalar paquetes
 pip install -r requirements.txt
 
+python "%app_path%" makemigrations
+python "%app_path%" migrate
+
 call "open_page.bat"
 :: Ejecutar el servidor
 python "%app_path%" runserver
