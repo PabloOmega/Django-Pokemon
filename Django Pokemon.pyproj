@@ -65,6 +65,7 @@
     <Content Include="pokemon_api\pokemon_app\__pycache__\urls.cpython-39.pyc" />
     <Content Include="pokemon_api\pokemon_app\__pycache__\views.cpython-39.pyc" />
     <Content Include="pokemon_api\pokemon_app\__pycache__\__init__.cpython-39.pyc" />
+    <Content Include="README.md" />
     <Content Include="requirements.txt" />
     <Content Include="run.bat" />
     <Content Include="setup.bat" />
