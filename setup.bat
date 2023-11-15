@@ -21,7 +21,7 @@ if %errorlevel% neq 0 (
     pause
     exit /b 1
 ) else (
-    echo Python instalado
+    echo Python instalado. Por favor espere mientras se instala la aplicación
 )
 
 :: Crear el entorno virtual

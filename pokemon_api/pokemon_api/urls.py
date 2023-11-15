@@ -19,5 +19,5 @@ from django.urls import path, include
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path('', include('pokemon_app.urls')),    
+    path('', include('pokemon_app.urls')),    # página de inicio de la aplicación
 ]

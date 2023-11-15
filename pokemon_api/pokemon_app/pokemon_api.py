@@ -2,16 +2,14 @@ import pokebase as pb
 import requests
 
 def get_pokemons():
+    """
+    Este método carga todos los nombres de pokemons existentes en la Base de Datos de la API
+    """     
     pokemons = []
     
     try:
-        for name in pb.APIResourceList("pokemon").names:
-            pokemons.append({
-                "name": name,
-                "sprite": "",
-                "num_abilities": 0,
-                "url_pokemon": ""
-            })
+        for name in pb.APIResourceList("pokemon").names:    # Solo se utiliza el paquete Pokebase para cargar los nombres
+            pokemons.append(name)
     except:
         print("Error de conexión")
         return None
@@ -19,6 +17,9 @@ def get_pokemons():
     return pokemons
 
 def get_abilities():
+    """
+    Este método carga todos los nombres de habilidades existentes en la Base de Datos de la API
+    """       
     abilities = []
     
     try:
@@ -31,6 +32,9 @@ def get_abilities():
     return abilities
 
 def get_pokemon_forms():
+    """
+    Este método carga todos los nombres de formas de pokemons existentes en la Base de Datos de la API
+    """     
     pokemon_forms = []
     
     try:
@@ -43,23 +47,19 @@ def get_pokemon_forms():
     return pokemon_forms
 
 def get_pokemons_data(pokemons_paged):
+    """
+    Este método carga la información de los pokemons a mostrarse en una determinada página o búsqueda
+    """ 
     pokemons = []
     
     try:
         for pokemon_paged in pokemons_paged:
-            # api_url = "https://pokeapi.co/api/v2/pokemon/" + pokemon_paged.name
-            # response = requests.get(api_url)
-            
-            # if response.status_code == 200:
-            #     pokemon = response.json()
-            # else:
-            #     print(f"Error en la solicitud. Código de estado: {response.status_code}")
-            #     return None
+            # La carga se hace utilizando requests y no Pokebase, puesto que por alguna razón Pokebase se queda congelada
             pokemon = get_api("https://pokeapi.co/api/v2/pokemon/" + pokemon_paged.name)
             if not pokemon:
                 return None
             
-            #pokemon = pb.pokemon(pokemon_paged.name)
+            #pokemon = pb.pokemon(pokemon_paged.name) # Esto sería con pokebase
             pokemons.append({
                 "name": pokemon["name"],
                 "sprite": pokemon["sprites"]["front_default"],
@@ -73,26 +73,21 @@ def get_pokemons_data(pokemons_paged):
     return pokemons   
 
 def load_pokemon_data(pokemon):
+    """
+    Este método carga toda la información esperada en la página individual del pokemon
+    """     
     try:
-        # api_url = "https://pokeapi.co/api/v2/pokemon/" + pokemon.name
-        # response = requests.get(api_url)
-            
-        # if response.status_code == 200:
-        #     pokemon_data = response.json()
-        # else:
-        #     print(f"Error en la solicitud. Código de estado: {response.status_code}")
-        #     return None
         pokemon_data = get_api("https://pokeapi.co/api/v2/pokemon/" + pokemon.name)
         if not pokemon_data:
             return None
             
-        if not get_abilities_data(pokemon_data["abilities"]):
+        if not get_abilities_data(pokemon_data["abilities"]):   # Las habilidades no están incluidas en el mismo stream
             return None
         
-        if not get_forms_data(pokemon_data["forms"]):
+        if not get_forms_data(pokemon_data["forms"]):   # Las formas no están incluidas en el mismo stream
             return None
 
-        head = {  
+        head = {  # Se crea una cabecera para identificar la información más importante facilmente
             "sprite": pokemon_data["sprites"]["front_default"],
             "num_abilities": len(pokemon_data["abilities"])
         }
@@ -104,6 +99,9 @@ def load_pokemon_data(pokemon):
         return None
 
 def get_abilities_data(abilities_url):
+    """
+    Obtiene los datos de las habilidades y sobreescribe esta información en el mismo strem principal obtenido por la API
+    """ 
     for i,ability_url in enumerate(abilities_url):
         ability = get_api(ability_url["ability"]["url"])
         
@@ -115,6 +113,9 @@ def get_abilities_data(abilities_url):
     return "ok"
 
 def get_forms_data(forms_url):
+    """
+    Obtiene los datos de las formas del pokemon y sobreescribe esta información en el mismo strem principal obtenido por la API
+    """     
     for i,form_url in enumerate(forms_url):
         form = get_api(form_url["url"])
         
@@ -126,6 +127,9 @@ def get_forms_data(forms_url):
     return "ok"
 
 def get_api(api_url):
+    """
+    Este método permite comunicarse con la api de manera sencilla
+    """     
     response = requests.get(api_url)
             
     if response.status_code == 200:
